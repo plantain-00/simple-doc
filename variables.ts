@@ -1,0 +1,1 @@
+export const indexTemplateHtml = `<div><div :class="tocClass"><tree :data="toc" @toggle="toggle($event)" @change="change($event)"></tree></div><div :class="contentClass" v-html="content"></div><div :class="navClass" @click="toggleNavigation()">{{ isNavExpand ? "«" : "»"}}</div></div>`;

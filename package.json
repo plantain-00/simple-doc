@@ -48,7 +48,7 @@
     "tslib": "1.7.1",
     "tslint": "5.5.0",
     "typescript": "2.4.2",
-    "uglify-js": "2.8.29",
+    "uglify-js": "3.0.27",
     "vue": "2.4.2",
     "vue-class-component": "5.0.2",
     "webpack": "3.4.1"

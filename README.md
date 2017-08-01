@@ -1,6 +1,7 @@
 [![Dependency Status](https://david-dm.org/plantain-00/simple-doc.svg)](https://david-dm.org/plantain-00/simple-doc)
 [![devDependency Status](https://david-dm.org/plantain-00/simple-doc/dev-status.svg)](https://david-dm.org/plantain-00/simple-doc#info=devDependencies)
-[![Build Status](https://travis-ci.org/plantain-00/simple-doc.svg?branch=master)](https://travis-ci.org/plantain-00/simple-doc)
+[![Build Status: Linux](https://travis-ci.org/plantain-00/simple-doc.svg?branch=master)](https://travis-ci.org/plantain-00/simple-doc)
+[![Build Status: Windows](https://ci.appveyor.com/api/projects/status/github/plantain-00/simple-doc?branch=master&svg=true)](https://ci.appveyor.com/project/plantain-00/simple-doc/branch/master)
 
 # simple-doc
 A Server-less and Build-less markdown document application.

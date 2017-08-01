@@ -29,12 +29,13 @@ const md = MarkdownIt({
 });
 md.renderer.rules.heading_open = (tokens: MarkdownIt.Token[], index: number, options: any, env: any, self: MarkdownIt.Renderer) => {
     const token = tokens[index];
-    return `<${token.tag} id="${getHeaderId(index)}">`;
+    for (const header of headers) {
+        if (header.tokenIndex === index) {
+            return `<${token.tag} id="${header.id}">`;
+        }
+    }
+    return `<${token.tag}>`;
 };
-
-function getHeaderId(id: number) {
-    return `header-${id}`;
-}
 
 let content = "";
 const headers: Header[] = [];
@@ -53,7 +54,8 @@ function setSelectionOfTree(tree: TreeData, height: number, state: PositionState
             state = setSelectionOfTree(tree.children[i], height, state);
         }
     }
-    const headerElement = document.getElementById(getHeaderId(tree.value.id));
+    const header: Header = tree.value;
+    const headerElement = document.getElementById(header.id);
     if (headerElement) {
         const top = headerElement.getBoundingClientRect().top;
         if (top < 0) {
@@ -86,6 +88,19 @@ class App extends Vue {
             this.setSelectionOfTrees();
         };
         this.setSelectionOfTrees();
+
+        window.onhashchange = ev => {
+            if (ev.newURL) {
+                const hashIndex = ev.newURL.indexOf("#");
+                if (hashIndex >= 0) {
+                    this.navigateToHash(ev.newURL.substring(hashIndex));
+                }
+            }
+        };
+
+        if (location.hash) {
+            this.navigateToHash(location.hash);
+        }
     }
 
     get tocClass() {
@@ -110,9 +125,20 @@ class App extends Vue {
         eventData.data.state.opened = !eventData.data.state.opened;
     }
     change(eventData: EventData) {
-        const headerElement = document.getElementById(getHeaderId(eventData.data.value.id));
-        if (headerElement) {
-            document.body.scrollTop += headerElement.getBoundingClientRect().top;
+        const header: Header = eventData.data.value;
+        location.hash = header.hash;
+    }
+    navigateToHash(hash: string) {
+        if (hash) {
+            for (const header of headers) {
+                if (header.hash === hash) {
+                    const headerElement = document.getElementById(header.id);
+                    if (headerElement) {
+                        document.body.scrollTop += headerElement.getBoundingClientRect().top;
+                    }
+                    return;
+                }
+            }
         }
     }
     toggleNavigation() {
@@ -123,18 +149,31 @@ class App extends Vue {
 const request = new XMLHttpRequest();
 request.onreadystatechange = () => {
     if (request.readyState === XMLHttpRequest.DONE) {
-        content = md.render(request.responseText);
-
         const tokens = md.parse(request.responseText, {});
         for (let i = 0; i + 2 < tokens.length; i++) {
             if (tokens[i].type === "heading_open" && tokens[i + 2].type === "heading_close") {
+                const headerContent = tokens[i + 1].content;
+                let index = 0;
+                for (let j = headers.length - 1; j >= 0; j--) {
+                    const header = headers[j];
+                    if (header.content === headerContent) {
+                        index = header.index + 1;
+                        break;
+                    }
+                }
+                const base = headerContent.replace(/ /g, "-") + (index ? "-" + index : "");
                 headers.push({
-                    id: i,
+                    tokenIndex: i,
                     tag: tokens[i].tag,
-                    content: tokens[i + 1].content,
+                    content: headerContent,
+                    index,
+                    id: "header-" + base,
+                    hash: "#" + base,
                 });
             }
         }
+
+        content = md.render(request.responseText);
 
         let lastTag: string | undefined;
         const stack: TreeData[] = [];
@@ -199,7 +238,10 @@ request.open("GET", "./README.md");
 request.send();
 
 type Header = {
-    id: number;
-    tag: string;
-    content: string;
+    tokenIndex: number; // eg: 100
+    tag: string; // eg: h1, h2, h3
+    content: string; // eg: foo bar
+    index: number; // eg: 0, 1, 2
+    id: string; // eg: header-foo-bar-1
+    hash: string; // eg: #foo-bar-1
 };

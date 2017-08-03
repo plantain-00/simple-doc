@@ -39,7 +39,7 @@ md.renderer.rules.heading_open = (tokens: MarkdownIt.Token[], index: number, opt
 
 let content = "";
 const headers: Header[] = [];
-const toc: TreeData[] = [];
+const toc: TreeData<Header>[] = [];
 
 const enum PositionState {
     top,
@@ -48,13 +48,13 @@ const enum PositionState {
     down,
 }
 
-function setSelectionOfTree(tree: TreeData, height: number, state: PositionState): PositionState {
+function setSelectionOfTree(tree: TreeData<Header>, height: number, state: PositionState): PositionState {
     if (tree.children) {
         for (let i = tree.children.length - 1; i >= 0; i--) {
             state = setSelectionOfTree(tree.children[i], height, state);
         }
     }
-    const header: Header = tree.value;
+    const header: Header = tree.value!;
     const headerElement = document.getElementById(header.id);
     if (headerElement) {
         const top = headerElement.getBoundingClientRect().top;
@@ -121,12 +121,11 @@ class App extends Vue {
             state = setSelectionOfTree(this.toc[i], height, state);
         }
     }
-    toggle(eventData: EventData) {
+    toggle(eventData: EventData<Header>) {
         eventData.data.state.opened = !eventData.data.state.opened;
     }
-    change(eventData: EventData) {
-        const header: Header = eventData.data.value;
-        location.hash = header.hash;
+    change(eventData: EventData<Header>) {
+        location.hash = eventData.data.value!.hash;
     }
     navigateToHash(hash: string) {
         if (hash) {
@@ -146,10 +145,43 @@ class App extends Vue {
     }
 }
 
+function endsWith(target: string, sub: string) {
+    return target.lastIndexOf(sub) + sub.length === target.length;
+}
+
+let src = "./README.md";
+if (location.pathname) {
+    if (endsWith(location.pathname, ".html")
+        && !endsWith(location.pathname, "/index.html")) {
+        src = location.pathname.substring(0, location.pathname.lastIndexOf(".html")) + ".md";
+    }
+}
+if (location.search) {
+    const array = location.search.substring(1).split("&");
+    for (const item of array) {
+        if (item.indexOf("src=") === 0) {
+            const srcFromQuery = item.substring("src=".length);
+            if (srcFromQuery) {
+                src = srcFromQuery;
+            }
+            break;
+        }
+    }
+}
+
 const request = new XMLHttpRequest();
 request.onreadystatechange = () => {
     if (request.readyState === XMLHttpRequest.DONE) {
-        const tokens = md.parse(request.responseText, {});
+        let responseText: string;
+        if (request.status >= 400) {
+            responseText = `# ${request.status}
+
+${request.statusText} for getting src: ${src}
+`;
+        } else {
+            responseText = request.responseText;
+        }
+        const tokens = md.parse(responseText, {});
         for (let i = 0; i + 2 < tokens.length; i++) {
             if (tokens[i].type === "heading_open" && tokens[i + 2].type === "heading_close") {
                 const headerContent = tokens[i + 1].content;
@@ -173,12 +205,12 @@ request.onreadystatechange = () => {
             }
         }
 
-        content = md.render(request.responseText);
+        content = md.render(responseText);
 
         let lastTag: string | undefined;
-        const stack: TreeData[] = [];
+        const stack: TreeData<Header>[] = [];
         for (const header of headers) {
-            const treeData: TreeData = {
+            const treeData: TreeData<Header> = {
                 text: header.content,
                 icon: false,
                 value: header,
@@ -217,7 +249,7 @@ request.onreadystatechange = () => {
                 }
                 stack.push(treeData);
             } else {
-                while (stack.length >= 1 && stack[stack.length - 1].value.tag >= header.tag) {
+                while (stack.length >= 1 && stack[stack.length - 1].value!.tag >= header.tag) {
                     stack.pop();
                 }
                 if (stack.length >= 1) {
@@ -234,7 +266,7 @@ request.onreadystatechange = () => {
         new App({ el: "#container" });
     }
 };
-request.open("GET", "./README.md");
+request.open("GET", src);
 request.send();
 
 type Header = {

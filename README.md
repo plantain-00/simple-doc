@@ -8,10 +8,15 @@ A Server-less and Build-less markdown document application.
 
 # usage
 
-+ download code from https://github.com/plantain-00/simple-doc-release
-+ serve the static files(eg: 8000 port)
-+ create and write your markdown document as `README.md`
-+ open http://localhost:8000
+1. download code from https://github.com/plantain-00/simple-doc-release
+2. serve the static files(eg: 8000 port)
+3. create and write your markdown document as `README.md`
+4. open http://localhost:8000
+
+## want to load other markdown file rather than `README.md`?
+
++ (optional)open http://localhost:8000?src=./other_doc.md
++ (optional)your static file server should do something like `nginx`'s `try_files` for `.html` files, then open http://localhost:8000/other_doc.html 
 
 # example
 

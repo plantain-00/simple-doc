@@ -54,8 +54,7 @@ function setSelectionOfTree(tree: TreeData<Header>, height: number, state: Posit
             state = setSelectionOfTree(tree.children[i], height, state);
         }
     }
-    const header: Header = tree.value!;
-    const headerElement = document.getElementById(header.id);
+    const headerElement = document.getElementById(tree.value!.id);
     if (headerElement) {
         const top = headerElement.getBoundingClientRect().top;
         if (top < 0) {
@@ -289,6 +288,6 @@ type Header = {
     tag: string; // eg: h1, h2, h3
     content: string; // eg: foo bar
     index: number; // eg: 0, 1, 2
-    id: string; // eg: header-foo-bar-1
-    hash: string; // eg: #foo-bar-1
+    id: string; // eg: header_foo-bar_1
+    hash: string; // eg: #foo-bar_1
 };

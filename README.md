@@ -83,3 +83,13 @@ cell 3 | cell 4
 
 > block quote
 >> nested block quote
+
+## 中文标题
+
+## 中文标题
+
+test for same head
+
+## 中文标题
+
+test for same head again

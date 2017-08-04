@@ -193,13 +193,13 @@ ${request.statusText} for getting src: ${src}
                         break;
                     }
                 }
-                const base = headerContent.replace(/ /g, "-") + (index ? "-" + index : "");
+                const base = normalizeId(headerContent) + (index ? "_" + index : "");
                 headers.push({
                     tokenIndex: i,
                     tag: tokens[i].tag,
                     content: headerContent,
                     index,
-                    id: "header-" + base,
+                    id: "header_" + base,
                     hash: "#" + base,
                 });
             }
@@ -268,6 +268,21 @@ ${request.statusText} for getting src: ${src}
 };
 request.open("GET", src);
 request.send();
+
+function normalizeId(id: string) {
+    let result = "";
+    for (const c of id) {
+        if (c < "0"
+            || (c > "9" && c < "A")
+            || (c > "Z" && c < "a")
+            || (c > "z" && c.charCodeAt(0) < 161)) {
+            result += "-";
+        } else {
+            result += c;
+        }
+    }
+    return result;
+}
 
 type Header = {
     tokenIndex: number; // eg: 100

@@ -44,7 +44,7 @@
     "stylelint": "8.0.0",
     "stylelint-config-standard": "17.0.0",
     "sw-precache": "5.2.0",
-    "tree-component": "3.1.0",
+    "tree-component": "3.2.0",
     "tslib": "1.7.1",
     "tslint": "5.5.0",
     "typescript": "2.4.2",

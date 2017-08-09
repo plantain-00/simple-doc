@@ -48,30 +48,45 @@ const enum PositionState {
     down,
 }
 
-function setSelectionOfTree(tree: TreeData<Header>, height: number, state: PositionState): PositionState {
-    if (tree.children) {
-        for (let i = tree.children.length - 1; i >= 0; i--) {
-            state = setSelectionOfTree(tree.children[i], height, state);
+/**
+ * if the header element that related to the node is visible, select the node
+ * collect all selected node to `selectedNodes`
+ * @param node the node object
+ * @param height the window height, to determine whether a header element is visible
+ * @param path the node path in the tree
+ * @param selectedNodeElements collect all selected node element
+ * @param lastState the state of last node
+ */
+function setSelectionOfTree(node: TreeData<Header>, height: number, path: number[], selectedNodeElements: HTMLElement[], lastState: PositionState): PositionState {
+    if (node.children) {
+        for (let i = node.children.length - 1; i >= 0; i--) {
+            lastState = setSelectionOfTree(node.children[i], height, path.concat(i), selectedNodeElements, lastState);
         }
     }
-    const headerElement = document.getElementById(tree.value!.id);
+    const headerElement = document.getElementById(node.value!.id);
     if (headerElement) {
         const top = headerElement.getBoundingClientRect().top;
         if (top < 0) {
-            tree.state.selected = state === PositionState.middle || state === PositionState.down;
-            state = PositionState.top;
+            node.state.selected = lastState === PositionState.middle || lastState === PositionState.down;
+            lastState = PositionState.top;
         } else if (top >= height) {
-            tree.state.selected = false;
-            state = PositionState.down;
+            node.state.selected = false;
+            lastState = PositionState.down;
         } else if (top < 5) {
-            tree.state.selected = true;
-            state = PositionState.borderTop;
+            node.state.selected = true;
+            lastState = PositionState.borderTop;
         } else {
-            tree.state.selected = true;
-            state = PositionState.middle;
+            node.state.selected = true;
+            lastState = PositionState.middle;
+        }
+        if (node.state.selected) {
+            const element = document.getElementById("toc_" + path.join("-"));
+            if (element) {
+                selectedNodeElements.push(element);
+            }
         }
     }
-    return state;
+    return lastState;
 }
 
 @Component({
@@ -114,10 +129,25 @@ class App extends Vue {
 
     setSelectionOfTrees() {
         const height = window.innerHeight || document.documentElement.clientHeight;
+        const selectedNodes: HTMLElement[] = [];
 
         let state = PositionState.down;
         for (let i = this.toc.length - 1; i >= 0; i--) {
-            state = setSelectionOfTree(this.toc[i], height, state);
+            state = setSelectionOfTree(this.toc[i], height, [i], selectedNodes, state);
+        }
+
+        if (selectedNodes.length > 0) {
+            const tocElement = this.$refs.toc as HTMLElement;
+
+            const firstSelectedNodePosition = selectedNodes[selectedNodes.length - 1].getBoundingClientRect();
+            if (firstSelectedNodePosition.top <= 0) {
+                tocElement.scrollTop += firstSelectedNodePosition.top;
+            }
+
+            const lastSelectedNodePosition = selectedNodes.length > 1 ? selectedNodes[0].getBoundingClientRect() : firstSelectedNodePosition;
+            if (lastSelectedNodePosition.bottom >= height) {
+                tocElement.scrollTop += lastSelectedNodePosition.bottom - height;
+            }
         }
     }
     toggle(eventData: EventData<Header>) {

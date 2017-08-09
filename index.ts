@@ -95,6 +95,7 @@ class EaseInEaseOut {
     private oldTimestamp: number;
     private targetValue: number;
     private duration: number;
+    private currentRequest: number;
     constructor(private updated: (currentValue: number) => void) { }
     start(initialValue: number, targetValue: number, duration = 500) {
         this.targetValue = targetValue;
@@ -102,7 +103,13 @@ class EaseInEaseOut {
         this.count = 0;
         this.radius = (targetValue - initialValue) / 2;
         this.oldTimestamp = performance.now();
-        window.requestAnimationFrame(timestamp => {
+        this.requestAnimationFrame();
+    }
+    private requestAnimationFrame() {
+        if (this.currentRequest) {
+            window.cancelAnimationFrame(this.currentRequest);
+        }
+        this.currentRequest = window.requestAnimationFrame(timestamp => {
             this.step(timestamp);
         });
     }
@@ -114,9 +121,7 @@ class EaseInEaseOut {
         }
         this.updated(this.targetValue - Math.round(this.radius + this.radius * Math.cos(this.count)));
         this.oldTimestamp = newTimestamp;
-        window.requestAnimationFrame(timestamp => {
-            this.step(timestamp);
-        });
+        this.requestAnimationFrame();
     }
 }
 
@@ -127,8 +132,17 @@ class App extends Vue {
     content = content;
     toc = toc;
     isNavExpand = false;
+    contentScroll: EaseInEaseOut;
+    tocScroll: EaseInEaseOut;
 
     mounted() {
+        this.contentScroll = new EaseInEaseOut(currentValue => {
+            (this.$refs.content as HTMLElement).scrollTop = currentValue;
+        });
+        this.tocScroll = new EaseInEaseOut(currentValue => {
+            (this.$refs.toc as HTMLElement).scrollTop = currentValue;
+        });
+
         (this.$refs.content as HTMLElement).onscroll = ev => {
             this.setSelectionOfTrees();
         };
@@ -172,12 +186,12 @@ class App extends Vue {
 
             const firstSelectedNodePosition = selectedNodes[selectedNodes.length - 1].getBoundingClientRect();
             if (firstSelectedNodePosition.top <= 0) {
-                tocElement.scrollTop += firstSelectedNodePosition.top;
+                this.tocScroll.start(tocElement.scrollTop, tocElement.scrollTop + firstSelectedNodePosition.top, 300);
             }
 
             const lastSelectedNodePosition = selectedNodes.length > 1 ? selectedNodes[0].getBoundingClientRect() : firstSelectedNodePosition;
             if (lastSelectedNodePosition.bottom >= height) {
-                tocElement.scrollTop += lastSelectedNodePosition.bottom - height;
+                this.tocScroll.start(tocElement.scrollTop, tocElement.scrollTop + lastSelectedNodePosition.bottom - height, 300);
             }
         }
     }
@@ -194,7 +208,7 @@ class App extends Vue {
                     const headerElement = document.getElementById(header.id);
                     if (headerElement) {
                         const contentElement = this.$refs.content as HTMLElement;
-                        new EaseInEaseOut(currentValue => contentElement.scrollTop = currentValue).start(contentElement.scrollTop, contentElement.scrollTop + headerElement.getBoundingClientRect().top);
+                        this.contentScroll.start(contentElement.scrollTop, contentElement.scrollTop + headerElement.getBoundingClientRect().top);
                     }
                     return;
                 }

@@ -98,7 +98,7 @@ class App extends Vue {
     isNavExpand = false;
 
     mounted() {
-        document.onscroll = ev => {
+        (this.$refs.content as HTMLElement).onscroll = ev => {
             this.setSelectionOfTrees();
         };
         this.setSelectionOfTrees();
@@ -162,7 +162,7 @@ class App extends Vue {
                 if (header.hash === hash) {
                     const headerElement = document.getElementById(header.id);
                     if (headerElement) {
-                        document.body.scrollTop += headerElement.getBoundingClientRect().top;
+                        (this.$refs.content as HTMLElement).scrollTop += headerElement.getBoundingClientRect().top;
                     }
                     return;
                 }

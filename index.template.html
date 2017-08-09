@@ -6,6 +6,6 @@
             @change="change($event)">
         </tree>
     </div>
-    <div :class="contentClass" v-html="content"></div>
+    <div :class="contentClass" v-html="content" ref="content"></div>
     <div :class="navClass" @click="toggleNavigation()">{{ isNavExpand ? "«" : "»"}}</div>
 </div>

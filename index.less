@@ -22,11 +22,13 @@
 }
 
 .content {
-  position: absolute;
+  position: fixed;
   left: @width;
   right: 0;
   padding-left: 28px;
   padding-right: 28px;
+  height: 100%;
+  overflow-y: auto;
   transition: left 0.3s ease-in-out;
 
   p,

@@ -89,6 +89,37 @@ function setSelectionOfTree(node: TreeData<Header>, height: number, path: number
     return lastState;
 }
 
+class EaseInEaseOut {
+    private radius: number;
+    private count: number;
+    private oldTimestamp: number;
+    private targetValue: number;
+    private duration: number;
+    constructor(private updated: (currentValue: number) => void) { }
+    start(initialValue: number, targetValue: number, duration = 500) {
+        this.targetValue = targetValue;
+        this.duration = duration;
+        this.count = 0;
+        this.radius = (targetValue - initialValue) / 2;
+        this.oldTimestamp = performance.now();
+        window.requestAnimationFrame(timestamp => {
+            this.step(timestamp);
+        });
+    }
+    private step(newTimestamp: number) {
+        this.count += Math.PI / (this.duration / (newTimestamp - this.oldTimestamp));
+        if (this.count > Math.PI) {
+            this.updated(this.targetValue);
+            return;
+        }
+        this.updated(this.targetValue - Math.round(this.radius + this.radius * Math.cos(this.count)));
+        this.oldTimestamp = newTimestamp;
+        window.requestAnimationFrame(timestamp => {
+            this.step(timestamp);
+        });
+    }
+}
+
 @Component({
     template: indexTemplateHtml,
 })
@@ -162,7 +193,8 @@ class App extends Vue {
                 if (header.hash === hash) {
                     const headerElement = document.getElementById(header.id);
                     if (headerElement) {
-                        (this.$refs.content as HTMLElement).scrollTop += headerElement.getBoundingClientRect().top;
+                        const contentElement = this.$refs.content as HTMLElement;
+                        new EaseInEaseOut(currentValue => contentElement.scrollTop = currentValue).start(contentElement.scrollTop, contentElement.scrollTop + headerElement.getBoundingClientRect().top);
                     }
                     return;
                 }

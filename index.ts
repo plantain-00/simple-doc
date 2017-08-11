@@ -2,10 +2,9 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import * as MarkdownIt from "markdown-it";
 import * as hljs from "highlight.js";
-import "tree-component/vue";
 import EaseInOut from "ease-in-out";
 import { indexTemplateHtml } from "./variables";
-import { EventData, TreeData, DropPosition } from "tree-component/vue";
+import { EventData, TreeData, DropPosition, getId } from "tree-component/vue";
 
 const md = MarkdownIt({
     linkify: true,
@@ -41,6 +40,7 @@ md.renderer.rules.heading_open = (tokens: MarkdownIt.Token[], index: number, opt
 let content = "";
 const headers: Header[] = [];
 const toc: TreeData<Header>[] = [];
+const preid = "toc_";
 
 const enum PositionState {
     top,
@@ -81,7 +81,7 @@ function setSelectionOfTree(node: TreeData<Header>, height: number, path: number
             lastState = PositionState.middle;
         }
         if (node.state.selected) {
-            const element = document.getElementById("toc_" + path.join("-"));
+            const element = document.getElementById(getId(path, preid)!);
             if (element) {
                 selectedNodeElements.push(element);
             }
@@ -99,6 +99,7 @@ class App extends Vue {
     isNavExpand = false;
     contentScroll: EaseInOut;
     tocScroll: EaseInOut;
+    preid = preid;
 
     mounted() {
         this.contentScroll = new EaseInOut(currentValue => {

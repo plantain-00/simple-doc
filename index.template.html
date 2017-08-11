@@ -1,7 +1,7 @@
 <div>
     <div :class="tocClass" ref="toc">
         <tree :data="toc"
-            preid="toc_"
+            :preid="preid"
             @toggle="toggle($event)"
             @change="change($event)">
         </tree>

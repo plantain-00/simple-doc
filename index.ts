@@ -97,9 +97,9 @@ class App extends Vue {
     content = content;
     toc = toc;
     isNavExpand = false;
-    contentScroll: EaseInOut;
-    tocScroll: EaseInOut;
     preid = preid;
+    private contentScroll: EaseInOut;
+    private tocScroll: EaseInOut;
 
     mounted() {
         this.contentScroll = new EaseInOut(currentValue => {
@@ -138,7 +138,16 @@ class App extends Vue {
         return this.isNavExpand ? "nav content-expand" : "nav";
     }
 
-    setSelectionOfTrees() {
+    toggle(eventData: EventData<Header>) {
+        eventData.data.state.opened = !eventData.data.state.opened;
+    }
+    change(eventData: EventData<Header>) {
+        location.hash = eventData.data.value!.hash;
+    }
+    toggleNavigation() {
+        this.isNavExpand = !this.isNavExpand;
+    }
+    private setSelectionOfTrees() {
         const height = window.innerHeight || document.documentElement.clientHeight;
         const selectedNodes: HTMLElement[] = [];
 
@@ -161,13 +170,7 @@ class App extends Vue {
             }
         }
     }
-    toggle(eventData: EventData<Header>) {
-        eventData.data.state.opened = !eventData.data.state.opened;
-    }
-    change(eventData: EventData<Header>) {
-        location.hash = eventData.data.value!.hash;
-    }
-    navigateToHash(hash: string) {
+    private navigateToHash(hash: string) {
         if (hash) {
             for (const header of headers) {
                 if (header.hash === hash) {
@@ -181,9 +184,6 @@ class App extends Vue {
                 }
             }
         }
-    }
-    toggleNavigation() {
-        this.isNavExpand = !this.isNavExpand;
     }
 }
 
@@ -304,7 +304,6 @@ ${request.statusText} for getting src: ${src}
             lastTag = header.tag;
         }
 
-        // tslint:disable-next-line:no-unused-expression
         new App({ el: "#container" });
     }
 };

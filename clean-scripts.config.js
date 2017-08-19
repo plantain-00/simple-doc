@@ -15,7 +15,7 @@ module.exports = {
           'cleancss -o index.bundle.css index.css'
         ]
       },
-      clean: 'rimraf **/*.bundle-*.js *.bundle-*.css'
+      clean: 'rimraf *.bundle-*.js *.bundle-*.css'
     },
     'rev-static --config rev-static.config.js',
     'sw-precache --config sw-precache.config.js --verbose',

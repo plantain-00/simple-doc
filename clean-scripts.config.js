@@ -18,8 +18,10 @@ module.exports = {
       clean: 'rimraf *.bundle-*.js *.bundle-*.css'
     },
     'rev-static --config rev-static.config.js',
-    'sw-precache --config sw-precache.config.js --verbose',
-    'uglifyjs service-worker.js -o service-worker.bundle.js'
+    [
+      'sw-precache --config sw-precache.config.js --verbose',
+      'uglifyjs service-worker.js -o service-worker.bundle.js'
+    ]
   ],
   lint: {
     ts: `tslint "*.ts"`,
@@ -50,5 +52,12 @@ module.exports = {
     less: `stylelint --fix "**/*.less"`
   },
   release: `clean-release`,
-  watch: `watch-then-execute "*.ts" "*.less" "*.template.html" --exclude "variables.ts" --script "npm run build"`
+  watch: {
+    template: `file2variable-cli *.template.html -o variables.ts --html-minify --watch`,
+    src: `tsc --watch`,
+    webpack: `webpack --watch`,
+    less: `watch-then-execute "index.less" --script "clean-scripts build[0].css.index"`,
+    rev: `rev-static --watch`,
+    sw: `watch-then-execute "vendor.bundle-*.js" "index.html" --script "clean-scripts build[2]"`
+  }
 }

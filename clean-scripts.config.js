@@ -6,7 +6,7 @@ module.exports = {
       js: [
         'file2variable-cli *.template.html -o variables.ts --html-minify',
         'tsc',
-        'webpack --display-modules --config webpack.config.js'
+        'webpack --display-modules'
       ],
       css: {
         vendor: 'cleancss -o vendor.bundle.css ./node_modules/github-fork-ribbon-css/gh-fork-ribbon.css ./node_modules/tree-component/tree.min.css ./node_modules/highlight.js/styles/routeros.css',
@@ -17,7 +17,7 @@ module.exports = {
       },
       clean: 'rimraf *.bundle-*.js *.bundle-*.css'
     },
-    'rev-static --config rev-static.config.js',
+    'rev-static',
     [
       'sw-precache --config sw-precache.config.js --verbose',
       'uglifyjs service-worker.js -o service-worker.bundle.js'
@@ -27,7 +27,7 @@ module.exports = {
     ts: `tslint "*.ts"`,
     js: `standard "**/*.config.js"`,
     less: `stylelint "**/*.less"`,
-    export: `no-unused-export "*.ts"`
+    export: `no-unused-export "*.ts" "**/*.less"`
   },
   test: [
     'tsc -p spec',

@@ -26,8 +26,8 @@ module.exports = {
   lint: {
     ts: `tslint "*.ts"`,
     js: `standard "**/*.config.js"`,
-    less: `stylelint "**/*.less"`,
-    export: `no-unused-export "*.ts" "**/*.less"`
+    less: `stylelint "index.less"`,
+    export: `no-unused-export "*.ts" "index.less"`
   },
   test: [
     'tsc -p spec',
@@ -49,7 +49,7 @@ module.exports = {
   fix: {
     ts: `tslint --fix "*.ts"`,
     js: `standard --fix "**/*.config.js"`,
-    less: `stylelint --fix "**/*.less"`
+    less: `stylelint --fix "index.less"`
   },
   release: `clean-release`,
   watch: {

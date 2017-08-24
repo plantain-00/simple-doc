@@ -40,7 +40,7 @@
     "karma-webpack": "2.0.4",
     "less": "2.7.2",
     "markdown-it": "8.3.1",
-    "no-unused-export": "1.1.0",
+    "no-unused-export": "1.2.1",
     "rev-static": "3.3.1",
     "rimraf": "2.6.1",
     "standard": "10.0.2",

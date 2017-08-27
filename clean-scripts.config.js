@@ -31,6 +31,7 @@ module.exports = {
       const browser = await puppeteer.launch()
       const page = await browser.newPage()
       await page.goto(`http://localhost:8000`)
+      await page.waitFor(1000)
       await page.screenshot({ path: `screenshot.png`, fullPage: true })
       const content = await page.content()
       fs.writeFileSync(`screenshot-src.html`, content)

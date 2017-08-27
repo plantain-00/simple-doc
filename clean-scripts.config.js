@@ -59,7 +59,7 @@ module.exports = {
             const fs = require('fs')
             for (const line of lines) {
               if (line.startsWith(' M ')) {
-                console.log(fs.readFileSync(line.substring(3)).toString())
+                console.log(fs.readFileSync(line.substring(3).trim()).toString())
               }
             }
             reject(new Error(`generated files doesn't match.`))

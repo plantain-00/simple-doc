@@ -25,7 +25,6 @@ module.exports = {
     async () => {
       const { createServer } = require('http-server')
       const puppeteer = require('puppeteer')
-      const fs = require('fs')
       const server = createServer()
       server.listen(8000)
       const browser = await puppeteer.launch()
@@ -33,8 +32,6 @@ module.exports = {
       await page.goto(`http://localhost:8000`)
       await page.waitFor(1000)
       await page.screenshot({ path: `screenshot.png`, fullPage: true })
-      const content = await page.content()
-      fs.writeFileSync(`screenshot-src.html`, content)
       server.close()
       browser.close()
     }

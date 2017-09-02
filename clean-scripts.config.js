@@ -37,7 +37,6 @@ module.exports = {
       await page.screenshot({ path: `screenshot.png`, fullPage: true })
       const content = await page.content()
       fs.writeFileSync(`screenshot-src.html`, beautify(content))
-      console.log(beautify(content))
       server.close()
       browser.close()
     }
@@ -50,7 +49,7 @@ module.exports = {
   },
   test: [
     'tsc -p spec',
-    process.env.APPVEYOR ? 'echo "skip karma test"' : 'karma start spec/karma.config.js',
+    'karma start spec/karma.config.js',
     'git checkout screenshot.png',
     () => new Promise((resolve, reject) => {
       childProcess.exec('git status -s', (error, stdout, stderr) => {

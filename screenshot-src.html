@@ -9,6 +9,7 @@
     <link href="./vendor.bundle-bce3e1c52ba7cf0587b83cab3ef151be.css" crossorigin="anonymous" integrity="sha256-nJBCW0dyuh35Nq6EGKMPZUafp9RwLSOlUzBB5deEM6Y=" rel="stylesheet">
     <style>
         * {
+            -webkit-box-sizing: border-box;
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -26,6 +27,7 @@
             width: 300px;
             height: 100%;
             overflow-y: auto;
+            -webkit-transition: left .3s ease-in-out;
             transition: left .3s ease-in-out;
             background-color: #fff;
             z-index: 10
@@ -39,6 +41,7 @@
             padding-right: 28px;
             height: 100%;
             overflow-y: auto;
+            -webkit-transition: left .3s ease-in-out;
             transition: left .3s ease-in-out
         }
 
@@ -109,8 +112,12 @@
             height: 1.5em;
             line-height: 1.5em;
             text-align: center;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
             user-select: none;
             left: 0;
+            -webkit-transition: left .3s ease-in-out;
             transition: left .3s ease-in-out
         }
 

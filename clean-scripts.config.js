@@ -15,7 +15,8 @@ module.exports = {
         vendor: 'cleancss -o vendor.bundle.css ./node_modules/github-fork-ribbon-css/gh-fork-ribbon.css ./node_modules/tree-component/tree.min.css ./node_modules/highlight.js/styles/routeros.css',
         index: [
           'lessc index.less > index.css',
-          'cleancss -o index.bundle.css index.css'
+          `postcss index.css -o index.postcss.css`,
+          'cleancss -o index.bundle.css index.postcss.css'
         ]
       },
       clean: 'rimraf *.bundle-*.js *.bundle-*.css'

@@ -4,13 +4,18 @@ const tsFiles = `"*.ts" "spec/**/*.ts" "screenshots/**/*.ts"`
 const jsFiles = `"*.config.js" "spec/**/*.config.js"`
 const lessFiles = `"*.less"`
 
+const templateCommand = 'file2variable-cli *.template.html -o variables.ts --html-minify'
+const tscCommand = 'tsc'
+const webpackCommand = 'webpack --display-modules'
+const revStaticCommand = 'rev-static'
+
 module.exports = {
   build: [
     {
       js: [
-        'file2variable-cli *.template.html -o variables.ts --html-minify',
-        'tsc',
-        'webpack --display-modules'
+        templateCommand,
+        tscCommand,
+        webpackCommand
       ],
       css: {
         vendor: 'cleancss -o vendor.bundle.css ./node_modules/github-fork-ribbon-css/gh-fork-ribbon.css ./node_modules/tree-component/tree.min.css ./node_modules/highlight.js/styles/routeros.css',
@@ -22,7 +27,7 @@ module.exports = {
       },
       clean: 'rimraf *.bundle-*.js *.bundle-*.css'
     },
-    'rev-static',
+    revStaticCommand,
     [
       'sw-precache --config sw-precache.config.js --verbose',
       'uglifyjs service-worker.js -o service-worker.bundle.js'
@@ -52,11 +57,11 @@ module.exports = {
   },
   release: `clean-release`,
   watch: {
-    template: `file2variable-cli *.template.html -o variables.ts --html-minify --watch`,
-    src: `tsc --watch`,
-    webpack: `webpack --watch`,
-    less: `watch-then-execute "index.less" --script "clean-scripts build[0].css.index"`,
-    rev: `rev-static --watch`,
+    template: `${templateCommand} --watch`,
+    src: `${tscCommand} --watch`,
+    webpack: `${webpackCommand} --watch`,
+    less: `watch-then-execute ${lessFiles} --script "clean-scripts build[0].css.index"`,
+    rev: `${revStaticCommand} --watch`,
     sw: `watch-then-execute "vendor.bundle-*.js" "index.html" --script "clean-scripts build[2]"`
   },
   screenshot: [

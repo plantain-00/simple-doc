@@ -2,7 +2,6 @@
   "name": "simple-doc",
   "version": "1.0.0",
   "description": "A Server-less and Build-less markdown document application.",
-  "main": "index.js",
   "scripts": {
     "build": "clean-scripts build",
     "lint": "clean-scripts lint",

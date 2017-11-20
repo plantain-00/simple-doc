@@ -41,7 +41,7 @@ module.exports = {
     js: `standard ${jsFiles}`,
     less: `stylelint ${lessFiles}`,
     export: `no-unused-export ${tsFiles} ${lessFiles}`,
-    commitlint: `commitlint --from=HEAD~1`
+    commit: `commitlint --from=HEAD~1`
   },
   test: [
     'tsc -p spec',

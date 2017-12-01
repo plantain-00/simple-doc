@@ -7,7 +7,7 @@ const lessFiles = `"*.less"`
 
 const templateCommand = 'file2variable-cli *.template.html -o variables.ts --html-minify'
 const tscCommand = 'tsc'
-const webpackCommand = 'webpack --display-modules'
+const webpackCommand = 'webpack'
 const revStaticCommand = 'rev-static'
 const cssCommand = [
   'lessc index.less > index.css',
@@ -53,7 +53,6 @@ module.exports = {
     js: `standard --fix ${jsFiles}`,
     less: `stylelint --fix ${lessFiles}`
   },
-  release: `clean-release`,
   watch: {
     template: `${templateCommand} --watch`,
     src: `${tscCommand} --watch`,

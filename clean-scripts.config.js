@@ -28,7 +28,7 @@ module.exports = {
         webpackCommand
       ],
       css: {
-        vendor: 'cleancss -o vendor.bundle.css ./node_modules/github-fork-ribbon-css/gh-fork-ribbon.css ./node_modules/tree-component/tree.min.css ./node_modules/highlight.js/styles/routeros.css',
+        vendor: 'cleancss -o vendor.bundle.css ./node_modules/github-fork-ribbon-css/gh-fork-ribbon.css ./node_modules/tree-component/dist/tree.min.css ./node_modules/highlight.js/styles/routeros.css',
         index: cssCommand
       },
       clean: 'rimraf *.bundle-*.js *.bundle-*.css'

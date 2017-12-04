@@ -4,7 +4,7 @@ import * as MarkdownIt from "markdown-it";
 import * as hljs from "highlight.js";
 import EaseInOut from "ease-in-out";
 import { indexTemplateHtml } from "./variables";
-import { EventData, TreeData, DropPosition, getId } from "tree-component/vue";
+import { EventData, TreeData, DropPosition, getId } from "tree-vue-component";
 
 const md = MarkdownIt({
     linkify: true,

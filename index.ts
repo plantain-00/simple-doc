@@ -91,9 +91,9 @@ function setSelectionOfTree(node: TreeData<Header>, height: number, path: number
 }
 
 @Component({
-    template: indexTemplateHtml,
+    render: indexTemplateHtml,
 })
-class App extends Vue {
+export class App extends Vue {
     content = content;
     toc = toc;
     isNavExpand = false;

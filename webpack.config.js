@@ -19,12 +19,6 @@ const plugins = [
   })
 ]
 
-const resolve = {
-  alias: {
-    'vue$': 'vue/dist/vue.esm.js'
-  }
-}
-
 module.exports = {
   entry: {
     index: './index',
@@ -34,6 +28,5 @@ module.exports = {
     path: __dirname,
     filename: '[name].bundle.js'
   },
-  plugins,
-  resolve
+  plugins
 }

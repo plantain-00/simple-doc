@@ -5,7 +5,7 @@ const tsFiles = `"*.ts" "spec/**/*.ts" "screenshots/**/*.ts"`
 const jsFiles = `"*.config.js" "spec/**/*.config.js"`
 const lessFiles = `"*.less"`
 
-const templateCommand = 'file2variable-cli *.template.html -o variables.ts --html-minify --vue --vue-type-name "App" --vue-type-path "./index"'
+const templateCommand = 'file2variable-cli --config file2variable.config.js'
 const tscCommand = 'tsc'
 const webpackCommand = 'webpack'
 const revStaticCommand = 'rev-static'

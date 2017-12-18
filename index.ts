@@ -3,7 +3,7 @@ import Component from "vue-class-component";
 import * as MarkdownIt from "markdown-it";
 import * as hljs from "highlight.js";
 import { EaseInOut } from "ease-in-out";
-import { indexTemplateHtml } from "./variables";
+import { indexTemplateHtml, indexTemplateHtmlStatic } from "./variables";
 import { EventData, TreeData, DropPosition, getId } from "tree-vue-component";
 
 const md = MarkdownIt({
@@ -92,6 +92,7 @@ function setSelectionOfTree(node: TreeData<Header>, height: number, path: number
 
 @Component({
     render: indexTemplateHtml,
+    staticRenderFns: indexTemplateHtmlStatic,
 })
 export class App extends Vue {
     content = content;

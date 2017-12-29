@@ -243,7 +243,7 @@ ${request.statusText} for getting src: ${src}
                     content: headerContent,
                     index,
                     id: "header_" + base,
-                    hash: "#" + base,
+                    hash: "#" + encodeURIComponent(base),
                 });
             }
         }

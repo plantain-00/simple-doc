@@ -22,7 +22,7 @@
   "homepage": "https://github.com/plantain-00/simple-doc#readme",
   "devDependencies": {
     "@commitlint/cli": "5.2.8",
-    "@commitlint/config-angular": "5.1.1",
+    "@commitlint/config-conventional": "6.0.2",
     "@types/highlight.js": "9.12.2",
     "@types/jasmine": "2.8.3",
     "@types/markdown-it": "0.0.4",

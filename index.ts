@@ -13,14 +13,12 @@ const md = MarkdownIt({
       try {
         return `<pre><code class="hljs ${lang}">${hljs.highlight(lang, str).value}</code></pre>`
       } catch (error) {
-                // tslint:disable-next-line:no-console
         console.log(error)
       }
     } else {
       try {
         return `<pre><code class="hljs">${hljs.highlightAuto(str).value}</code></pre>`
       } catch (error) {
-                // tslint:disable-next-line:no-console
         console.log(error)
       }
     }
@@ -36,6 +34,7 @@ md.renderer.rules.heading_open = (tokens: MarkdownIt.Token[], index: number, opt
   }
   return `<${token.tag}>`
 }
+md.use(require('markdown-it-footnote'))
 
 let content = ''
 const headers: Header[] = []

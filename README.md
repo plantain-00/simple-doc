@@ -75,4 +75,10 @@ cell 3 | cell 4
 > block quote
 >> nested block quote
 
+## footnote
+
+[^footnote]
+
+[^footnote]: footnote example
+
 ## 中文标题

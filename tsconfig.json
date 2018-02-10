@@ -1,23 +1,11 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-
-        "module": "esnext",
-        "moduleResolution": "node",
-        "strict": true,
-        "noUnusedLocals": true,
-        "noImplicitReturns": true,
-        "skipLibCheck": true,
-        "importHelpers": true,
-        "jsx": "react",
-        "experimentalDecorators": true,
-        "allowSyntheticDefaultImports": true,
-        "downlevelIteration": true,
-        "newLine": "LF"
-    },
-    "files": [
-        "index.ts",
-        "variables.ts",
-        "vendor.ts"
-    ]
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "target": "es5"
+  },
+  "files": [
+    "index.ts",
+    "variables.ts",
+    "vendor.ts"
+  ]
 }

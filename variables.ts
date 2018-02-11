@@ -3,7 +3,7 @@
  * It is not mean to be edited by hand
  */
 // tslint:disable
-import { App } from "./index";
+import { App } from "./index"
 
 // @ts-ignore
 export function indexTemplateHtml(this: App) {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{ref:"toc",class:_vm.tocClass},[_c('tree',{attrs:{"data":_vm.toc,"preid":_vm.preid},on:{"toggle":function($event){_vm.toggle($event)},"change":function($event){_vm.change($event)}}})],1),_vm._v(" "),_c('div',{ref:"content",class:_vm.contentClass,domProps:{"innerHTML":_vm._s(_vm.content)}}),_vm._v(" "),_c('div',{class:_vm.navClass,on:{"click":function($event){_vm.toggleNavigation()}}},[_vm._v(_vm._s(_vm.isNavExpand ? "«" : "»"))])])}

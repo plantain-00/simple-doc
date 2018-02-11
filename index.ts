@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import * as MarkdownIt from 'markdown-it'
-import * as hljs from 'highlight.js'
+import MarkdownIt from 'markdown-it'
+import hljs from 'highlight.js'
 import { EaseInOut } from 'ease-in-out'
 import { indexTemplateHtml, indexTemplateHtmlStatic } from './variables'
 import { EventData, TreeData, DropPosition, getId } from 'tree-vue-component'
@@ -98,8 +98,8 @@ export class App extends Vue {
   toc = toc
   isNavExpand = false
   preid = preid
-  private contentScroll: EaseInOut
-  private tocScroll: EaseInOut
+  private contentScroll!: EaseInOut
+  private tocScroll!: EaseInOut
 
   mounted () {
     this.contentScroll = new EaseInOut(currentValue => {

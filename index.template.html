@@ -1,0 +1,11 @@
+<div>
+    <div :class="tocClass" ref="toc">
+        <tree :data="toc"
+            :preid="preid"
+            @toggle="toggle($event)"
+            @change="change($event)">
+        </tree>
+    </div>
+    <div :class="contentClass" v-html="content" ref="content"></div>
+    <div :class="navClass" @click="toggleNavigation()">{{ isNavExpand ? "«" : "»"}}</div>
+</div>

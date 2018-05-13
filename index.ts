@@ -42,10 +42,10 @@ const toc: TreeData<Header>[] = []
 const preid = 'toc_'
 
 const enum PositionState {
-    top,
-    borderTop,
-    middle,
-    down
+  top,
+  borderTop,
+  middle,
+  down
 }
 
 /**
@@ -57,7 +57,7 @@ const enum PositionState {
  * @param selectedNodeElements collect all selected node element
  * @param lastState the state of last node
  */
-function setSelectionOfTree (node: TreeData<Header>, height: number, path: number[], selectedNodeElements: HTMLElement[], lastState: PositionState): PositionState {
+function setSelectionOfTree(node: TreeData<Header>, height: number, path: number[], selectedNodeElements: HTMLElement[], lastState: PositionState): PositionState {
   if (node.children) {
     for (let i = node.children.length - 1; i >= 0; i--) {
       lastState = setSelectionOfTree(node.children[i], height, path.concat(i), selectedNodeElements, lastState)
@@ -101,7 +101,7 @@ export class App extends Vue {
   private contentScroll!: EaseInOut
   private tocScroll!: EaseInOut
 
-  mounted () {
+  mounted() {
     this.contentScroll = new EaseInOut(currentValue => {
       (this.$refs.content as HTMLElement).scrollTop = currentValue
     })
@@ -128,26 +128,26 @@ export class App extends Vue {
     }
   }
 
-  get tocClass () {
+  get tocClass() {
     return this.isNavExpand ? 'toc toc-expand' : 'toc'
   }
-  get contentClass () {
+  get contentClass() {
     return this.isNavExpand ? 'content content-expand' : 'content'
   }
-  get navClass () {
+  get navClass() {
     return this.isNavExpand ? 'nav content-expand' : 'nav'
   }
 
-  toggle (eventData: EventData<Header>) {
+  toggle(eventData: EventData<Header>) {
     eventData.data.state.opened = !eventData.data.state.opened
   }
-  change (eventData: EventData<Header>) {
+  change(eventData: EventData<Header>) {
     location.hash = eventData.data.value!.hash
   }
-  toggleNavigation () {
+  toggleNavigation() {
     this.isNavExpand = !this.isNavExpand
   }
-  private setSelectionOfTrees () {
+  private setSelectionOfTrees() {
     const height = window.innerHeight || document.documentElement.clientHeight
     const selectedNodes: HTMLElement[] = []
 
@@ -170,7 +170,7 @@ export class App extends Vue {
       }
     }
   }
-  private navigateToHash (hash: string) {
+  private navigateToHash(hash: string) {
     if (hash) {
       for (const header of headers) {
         if (header.hash === hash) {
@@ -187,14 +187,14 @@ export class App extends Vue {
   }
 }
 
-function endsWith (target: string, sub: string) {
+function endsWith(target: string, sub: string) {
   return target.lastIndexOf(sub) + sub.length === target.length
 }
 
 let src = './README.md'
 if (location.pathname) {
   if (endsWith(location.pathname, '.html')
-        && !endsWith(location.pathname, '/index.html')) {
+    && !endsWith(location.pathname, '/index.html')) {
     src = location.pathname.substring(0, location.pathname.lastIndexOf('.html')) + '.md'
   }
 }
@@ -311,13 +311,13 @@ ${request.statusText} for getting src: ${src}
 request.open('GET', src)
 request.send()
 
-function normalizeId (id: string) {
+function normalizeId(id: string) {
   let result = ''
   for (const c of id) {
     if (c < '0'
-            || (c > '9' && c < 'A')
-            || (c > 'Z' && c < 'a')
-            || (c > 'z' && c.charCodeAt(0) < 161)) {
+      || (c > '9' && c < 'A')
+      || (c > 'Z' && c < 'a')
+      || (c > 'z' && c.charCodeAt(0) < 161)) {
       result += '-'
     } else {
       result += c

@@ -4,7 +4,7 @@
   "description": "A Server-less and Build-less markdown document application.",
   "scripts": {
     "build": "clean-scripts build",
-    "dev": "export NODE_ENV=development && clean-scripts build",
+    "dev": "cross-env NODE_ENV=development clean-scripts build",
     "lint": "clean-scripts lint",
     "test": "clean-scripts test",
     "fix": "clean-scripts fix",
@@ -31,6 +31,7 @@
     "autoprefixer": "8.6.3",
     "clean-css-cli": "4.1.11",
     "clean-scripts": "1.9.2",
+    "cross-env": "5.2.0",
     "ease-in-out": "2.2.1",
     "file2variable-cli": "1.8.5",
     "github-fork-ribbon-css": "0.2.1",

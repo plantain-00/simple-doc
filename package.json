@@ -8,7 +8,7 @@
     "lint": "clean-scripts lint",
     "test": "clean-scripts test",
     "fix": "clean-scripts fix",
-    "watch": "clean-scripts watch",
+    "watch": "cross-env NODE_ENV=development clean-scripts watch",
     "screenshot": "clean-scripts screenshot"
   },
   "repository": {
@@ -57,6 +57,7 @@
     "stylelint-config-standard": "18.2.0",
     "sw-precache": "5.2.1",
     "tree-vue-component": "5.4.0",
+    "ts-loader": "5.0.0",
     "tslib": "1.9.3",
     "tslint": "5.11.0",
     "tslint-config-standard": "8.0.0",

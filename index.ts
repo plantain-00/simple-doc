@@ -192,11 +192,10 @@ function endsWith(target: string, sub: string) {
 }
 
 let src = './README.md'
-if (location.pathname) {
-  if (endsWith(location.pathname, '.html')
-    && !endsWith(location.pathname, '/index.html')) {
-    src = location.pathname.substring(0, location.pathname.lastIndexOf('.html')) + '.md'
-  }
+if (location.pathname
+  && endsWith(location.pathname, '.html')
+  && !endsWith(location.pathname, '/index.html')) {
+  src = location.pathname.substring(0, location.pathname.lastIndexOf('.html')) + '.md'
 }
 if (location.search) {
   const array = location.search.substring(1).split('&')

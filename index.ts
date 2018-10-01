@@ -148,7 +148,7 @@ export class App extends Vue {
     this.isNavExpand = !this.isNavExpand
   }
   private setSelectionOfTrees() {
-    const height = window.innerHeight || document.documentElement.clientHeight
+    const height = window.innerHeight || document.documentElement!.clientHeight
     const selectedNodes: HTMLElement[] = []
 
     let state = PositionState.down

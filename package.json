@@ -22,11 +22,11 @@
   },
   "homepage": "https://github.com/plantain-00/simple-doc#readme",
   "devDependencies": {
-    "@commitlint/cli": "7.2.0",
+    "@commitlint/cli": "7.2.1",
     "@commitlint/config-conventional": "7.1.2",
     "@types/highlight.js": "9.12.3",
     "@types/jasmine": "2.8.9",
-    "@types/markdown-it": "0.0.5",
+    "@types/markdown-it": "0.0.6",
     "@types/puppeteer": "1.9.0",
     "autoprefixer": "9.1.5",
     "clean-css-cli": "4.2.1",

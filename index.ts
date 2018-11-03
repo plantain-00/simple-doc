@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import MarkdownIt from 'markdown-it'
+import Token from 'markdown-it/lib/token'
+import Renderer from 'markdown-it/lib/renderer'
 import hljs from 'highlight.js'
 import { EaseInOut } from 'ease-in-out'
 import { indexTemplateHtml, indexTemplateHtmlStatic } from './variables'
@@ -25,7 +27,7 @@ const md = MarkdownIt({
     return `<pre><code class="hljs">${md.utils.escapeHtml(str)}</code></pre>`
   }
 })
-md.renderer.rules.heading_open = (tokens: MarkdownIt.Token[], index: number, options: any, env: any, self: MarkdownIt.Renderer) => {
+md.renderer.rules.heading_open = (tokens: Token[], index: number, options: any, env: any, self: Renderer) => {
   const token = tokens[index]
   for (const header of headers) {
     if (header.tokenIndex === index) {

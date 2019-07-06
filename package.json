@@ -29,11 +29,11 @@
     "@commitlint/config-conventional": "8.0.0",
     "@types/highlight.js": "9.12.3",
     "@types/jasmine": "3.3.13",
-    "@types/markdown-it": "0.0.7",
+    "@types/markdown-it": "0.0.8",
     "@types/puppeteer": "1.12.4",
-    "autoprefixer": "9.6.0",
+    "autoprefixer": "9.6.1",
     "clean-css-cli": "4.3.0",
-    "clean-scripts": "1.11.1",
+    "clean-scripts": "1.11.2",
     "cross-env": "5.2.0",
     "ease-in-out": "2.2.1",
     "file2variable-cli": "1.8.5",
@@ -50,7 +50,7 @@
     "markdown-it": "8.4.2",
     "markdown-it-footnote": "3.0.1",
     "markdownlint-cli": "0.17.0",
-    "no-unused-export": "1.7.0",
+    "no-unused-export": "1.9.0",
     "postcss-cli": "6.1.2",
     "puppeteer": "1.18.1",
     "rev-static": "3.4.3",
@@ -71,7 +71,7 @@
     "vue": "2.6.10",
     "vue-class-component": "7.1.0",
     "watch-then-execute": "1.1.1",
-    "webpack": "4.35.0",
+    "webpack": "4.35.2",
     "webpack-cli": "3.3.5"
   }
 }

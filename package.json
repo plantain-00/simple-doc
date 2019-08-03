@@ -38,7 +38,7 @@
     "ease-in-out": "2.2.1",
     "file2variable-cli": "1.9.0",
     "github-fork-ribbon-css": "0.2.3",
-    "highlight.js": "9.15.8",
+    "highlight.js": "9.15.9",
     "http-server": "0.11.1",
     "jasmine": "3.4.0",
     "karma": "4.2.0",
@@ -65,13 +65,13 @@
     "tslint": "5.18.0",
     "tslint-config-standard": "8.0.1",
     "tslint-sonarts": "1.9.0",
-    "type-coverage": "2.2.0-alpha.2",
+    "type-coverage": "2.2.0",
     "typescript": "3.5.3",
     "uglify-js": "3",
     "vue": "2.6.10",
     "vue-class-component": "7.1.0",
     "watch-then-execute": "1.1.1",
-    "webpack": "4.38.0",
+    "webpack": "4.39.1",
     "webpack-cli": "3.3.6"
   }
 }

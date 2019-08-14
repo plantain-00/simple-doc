@@ -225,9 +225,13 @@ ${request.statusText} for getting src: ${src}
       responseText = request.responseText
     }
     const tokens = md.parse(responseText, {})
+    let title = ''
     for (let i = 0; i + 2 < tokens.length; i++) {
       if (tokens[i].type === 'heading_open' && tokens[i + 2].type === 'heading_close') {
         const headerContent = tokens[i + 1].content
+        if (!title) {
+          title = headerContent
+        }
         let index = 0
         for (let j = headers.length - 1; j >= 0; j--) {
           const header = headers[j]
@@ -246,6 +250,9 @@ ${request.statusText} for getting src: ${src}
           hash: '#' + encodeURIComponent(base)
         })
       }
+    }
+    if (title) {
+      document.title = title
     }
 
     content = md.render(responseText)

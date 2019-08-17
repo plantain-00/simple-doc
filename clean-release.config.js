@@ -10,5 +10,12 @@ module.exports = {
   exclude: [
   ],
   askVersion: true,
-  releaseRepository: 'https://github.com/plantain-00/simple-doc-release.git'
+  releaseRepository: 'https://github.com/plantain-00/simple-doc-release.git',
+  postScript: [
+    'git add package.json',
+    ({ version }) => `git commit -m "${version}"`,
+    ({ version }) => `git tag -a v${version} -m 'v${version}'`,
+    'git push',
+    ({ version }) => `git push origin v${version}`
+  ]
 }

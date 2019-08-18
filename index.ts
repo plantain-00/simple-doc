@@ -312,7 +312,6 @@ ${request.statusText} for getting src: ${src}
       lastTag = header.tag
     }
 
-    // tslint:disable-next-line:no-unused-expression
     new App({ el: '#container' })
   }
 }

@@ -116,7 +116,7 @@ export class App extends Vue {
     }
     this.setSelectionOfTrees()
 
-    window.onhashchange = ev => {
+    window.onhashchange = (ev: HashChangeEvent) => {
       if (ev.newURL) {
         const hashIndex = ev.newURL.indexOf('#')
         if (hashIndex >= 0) {

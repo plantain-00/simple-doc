@@ -38,7 +38,7 @@
     "clean-scripts": "1.12.1",
     "cross-env": "5.2.0",
     "ease-in-out": "2.2.1",
-    "eslint": "6.2.1",
+    "eslint": "6.3.0",
     "eslint-config-prettier": "6.1.0",
     "eslint-plugin-plantain": "0.1.2",
     "file2variable-cli": "1.9.0",
@@ -46,7 +46,7 @@
     "highlight.js": "9.15.10",
     "http-server": "0.11.1",
     "jasmine": "3.4.0",
-    "karma": "4.2.0",
+    "karma": "4.3.0",
     "karma-chrome-launcher": "3.1.0",
     "karma-firefox-launcher": "1.2.0",
     "karma-jasmine": "2.0.1",
@@ -67,12 +67,12 @@
     "ts-loader": "6.0.4",
     "tslib": "1.10.0",
     "type-coverage": "2.2.0",
-    "typescript": "3.5.3",
+    "typescript": "3.6.2",
     "uglify-js": "3",
     "vue": "2.6.10",
     "vue-class-component": "7.1.0",
     "watch-then-execute": "1.1.1",
-    "webpack": "4.39.2",
+    "webpack": "4.39.3",
     "webpack-cli": "3.3.7"
   }
 }

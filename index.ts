@@ -8,9 +8,9 @@ import { EaseInOut } from 'ease-in-out'
 import { indexTemplateHtml, indexTemplateHtmlStatic } from './variables'
 import { EventData, TreeData, DropPosition, getId } from 'tree-vue-component'
 
-const md = MarkdownIt({
+const md: MarkdownIt = MarkdownIt({
   linkify: true,
-  highlight: (str: string, lang: string) => {
+  highlight: (str, lang) => {
     if (lang && hljs.getLanguage(lang)) {
       try {
         return `<pre><code class="hljs ${lang}">${hljs.highlight(lang, str).value}</code></pre>`

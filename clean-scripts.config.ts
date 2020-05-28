@@ -1,15 +1,14 @@
-const { Service, executeScriptAsync } = require('clean-scripts')
-const { watch } = require('watch-then-execute')
+import { executeScriptAsync } from 'clean-scripts'
+import { watch } from 'watch-then-execute'
 
-const tsFiles = `"*.ts" "spec/**/*.ts" "screenshots/**/*.ts"`
-const jsFiles = `"*.config.js" "spec/**/*.config.js"`
+const tsFiles = `"*.ts"`
+const jsFiles = `"*.config.js"`
 const lessFiles = `"*.less"`
 
 const isDev = process.env.NODE_ENV === 'development'
 
-const templateCommand = 'file2variable-cli --config file2variable.config.js'
-const tscCommand = 'tsc'
-const webpackCommand = 'webpack'
+const templateCommand = 'file2variable-cli --config file2variable.config.ts'
+const webpackCommand = 'webpack --config webpack.config.ts'
 const revStaticCommand = 'rev-static'
 const cssCommand = [
   'lessc index.less > index.css',
@@ -26,7 +25,6 @@ module.exports = {
     {
       js: [
         templateCommand,
-        tscCommand,
         webpackCommand
       ],
       css: {
@@ -46,10 +44,7 @@ module.exports = {
     markdown: `markdownlint README.md`,
     typeCoverage: 'type-coverage -p . --strict'
   },
-  test: [
-    'tsc -p spec',
-    'karma start spec/karma.config.js'
-  ],
+  test: [],
   fix: {
     ts: `eslint --ext .js,.ts,.tsx ${tsFiles} ${jsFiles} --fix`,
     less: `stylelint --fix ${lessFiles}`
@@ -59,10 +54,5 @@ module.exports = {
     webpack: `${webpackCommand} --watch`,
     less: () => watch(['*.less'], [], () => executeScriptAsync(cssCommand)),
     rev: `${revStaticCommand} --watch`
-  },
-  screenshot: [
-    new Service(`http-server -p 8000`),
-    `tsc -p screenshots`,
-    `node screenshots/index.js`
-  ]
+  }
 }

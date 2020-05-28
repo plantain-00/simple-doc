@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   include: [
     'vendor.bundle-*.js',
     'vendor.bundle-*.css',
@@ -11,11 +11,11 @@ module.exports = {
   ],
   askVersion: true,
   releaseRepository: 'https://github.com/plantain-00/simple-doc-release.git',
-  postScript: [
+  postScript: ({ version }) => [
     'git add package.json',
-    ({ version }) => `git commit -m "${version}"`,
-    ({ version }) => `git tag -a v${version} -m 'v${version}'`,
+    `git commit -m "${version}"`,
+    `git tag -a v${version} -m 'v${version}'`,
     'git push',
-    ({ version }) => `git push origin v${version}`
+    `git push origin v${version}`
   ]
 }

@@ -2,7 +2,6 @@ import { executeScriptAsync } from 'clean-scripts'
 import { watch } from 'watch-then-execute'
 
 const tsFiles = `"*.ts"`
-const jsFiles = `"*.config.js"`
 const lessFiles = `"*.less"`
 
 const isDev = process.env.NODE_ENV === 'development'
@@ -37,7 +36,7 @@ module.exports = {
     swCommand
   ],
   lint: {
-    ts: `eslint --ext .js,.ts,.tsx ${tsFiles} ${jsFiles}`,
+    ts: `eslint --ext .js,.ts,.tsx ${tsFiles}`,
     less: `stylelint ${lessFiles}`,
     export: `no-unused-export ${tsFiles} ${lessFiles}`,
     markdown: `markdownlint README.md`,
@@ -45,7 +44,7 @@ module.exports = {
   },
   test: [],
   fix: {
-    ts: `eslint --ext .js,.ts,.tsx ${tsFiles} ${jsFiles} --fix`,
+    ts: `eslint --ext .js,.ts,.tsx ${tsFiles} --fix`,
     less: `stylelint --fix ${lessFiles}`
   },
   watch: {

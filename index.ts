@@ -14,13 +14,13 @@ const md: MarkdownIt = MarkdownIt({
     if (lang && hljs.getLanguage(lang)) {
       try {
         return `<pre><code class="hljs ${lang}">${hljs.highlight(lang, str).value}</code></pre>`
-      } catch (error) {
+      } catch (error: unknown) {
         console.log(error)
       }
     } else {
       try {
         return `<pre><code class="hljs">${hljs.highlightAuto(str).value}</code></pre>`
-      } catch (error) {
+      } catch (error: unknown) {
         console.log(error)
       }
     }

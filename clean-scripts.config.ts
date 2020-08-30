@@ -40,7 +40,7 @@ module.exports = {
     less: `stylelint ${lessFiles}`,
     export: `no-unused-export ${tsFiles} ${lessFiles}`,
     markdown: `markdownlint README.md`,
-    typeCoverage: 'type-coverage -p . --strict --ignore-catch --ignore-files "variables.ts"'
+    typeCoverage: 'type-coverage -p . --strict --ignore-files "variables.ts"'
   },
   test: [],
   fix: {

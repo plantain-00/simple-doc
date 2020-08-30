@@ -20,7 +20,7 @@
     "url": "https://github.com/plantain-00/simple-doc/issues"
   },
   "typeCoverage": {
-    "atLeast": 98.17
+    "atLeast": 98.19
   },
   "homepage": "https://github.com/plantain-00/simple-doc#readme",
   "devDependencies": {

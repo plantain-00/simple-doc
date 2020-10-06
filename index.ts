@@ -1,12 +1,10 @@
-import Vue from 'vue'
-import Component from 'vue-class-component'
+import { createApp, defineComponent } from 'vue'
 import MarkdownIt from 'markdown-it'
 import Token from 'markdown-it/lib/token'
-import Renderer from 'markdown-it/lib/renderer'
 import hljs from 'highlight.js'
 import { EaseInOut } from 'ease-in-out'
-import { indexTemplateHtml, indexTemplateHtmlStatic } from './variables'
-import { EventData, TreeData, DropPosition, getId } from 'tree-vue-component'
+import { indexTemplateHtml } from './variables'
+import { EventData, TreeData, DropPosition, getId, Tree, Node } from 'tree-vue-component'
 
 const md: MarkdownIt = MarkdownIt({
   linkify: true,
@@ -27,7 +25,7 @@ const md: MarkdownIt = MarkdownIt({
     return `<pre><code class="hljs">${md.utils.escapeHtml(str)}</code></pre>`
   }
 })
-md.renderer.rules.heading_open = (tokens: Token[], index: number, options: any, env: any, self: Renderer) => {
+md.renderer.rules.heading_open = (tokens: Token[], index: number) => {
   const token = tokens[index]
   for (const header of headers) {
     if (header.tokenIndex === index) {
@@ -65,7 +63,10 @@ function setSelectionOfTree(node: TreeData<Header>, height: number, path: number
       lastState = setSelectionOfTree(node.children[i], height, path.concat(i), selectedNodeElements, lastState)
     }
   }
-  const headerElement = document.getElementById(node.value!.id)
+  if (!node.value) {
+    return lastState
+  }
+  const headerElement = document.getElementById(node.value.id)
   if (headerElement) {
     const top = headerElement.getBoundingClientRect().top
     if (top < 0) {
@@ -82,27 +83,30 @@ function setSelectionOfTree(node: TreeData<Header>, height: number, path: number
       lastState = PositionState.middle
     }
     if (node.state.selected) {
-      const element = document.getElementById(getId(path, preid)!)
-      if (element) {
-        selectedNodeElements.push(element)
+      const id = getId(path, preid)
+      if (id) {
+        const element = document.getElementById(id)
+        if (element) {
+          selectedNodeElements.push(element)
+        }
       }
     }
   }
   return lastState
 }
 
-@Component({
+const App = defineComponent({
   render: indexTemplateHtml,
-  staticRenderFns: indexTemplateHtmlStatic
-})
-export class App extends Vue {
-  content = content
-  toc = toc
-  isNavExpand = false
-  preid = preid
-  private contentScroll!: EaseInOut
-  private tocScroll!: EaseInOut
-
+  data: () => {
+    return {
+      content,
+      toc,
+      isNavExpand: false,
+      preid,
+      contentScroll: undefined as EaseInOut | undefined,
+      tocScroll: undefined as EaseInOut | undefined,
+    }
+  },
   mounted() {
     this.contentScroll = new EaseInOut(currentValue => {
       (this.$refs.content as HTMLElement).scrollTop = currentValue
@@ -111,7 +115,7 @@ export class App extends Vue {
       (this.$refs.toc as HTMLElement).scrollTop = currentValue
     });
 
-    (this.$refs.content as HTMLElement).onscroll = ev => {
+    (this.$refs.content as HTMLElement).onscroll = () => {
       this.setSelectionOfTrees()
     }
     this.setSelectionOfTrees()
@@ -128,66 +132,70 @@ export class App extends Vue {
     if (location.hash) {
       this.navigateToHash(location.hash)
     }
-  }
+  },
+  computed: {
+    tocClass(): string {
+      return this.isNavExpand ? 'toc toc-expand' : 'toc'
+    },
+    contentClass(): string {
+      return this.isNavExpand ? 'content content-expand' : 'content'
+    },
+    navClass(): string {
+      return this.isNavExpand ? 'nav content-expand' : 'nav'
+    },
+  },
+  methods: {
+    toggle(eventData: EventData<Header>) {
+      eventData.data.state.opened = !eventData.data.state.opened
+    },
+    change(eventData: EventData<Header>) {
+      if (eventData.data.value) {
+        location.hash = eventData.data.value.hash
+      }
+    },
+    toggleNavigation() {
+      this.isNavExpand = !this.isNavExpand
+    },
+    setSelectionOfTrees() {
+      const height = window.innerHeight || document.documentElement.clientHeight
+      const selectedNodes: HTMLElement[] = []
 
-  get tocClass() {
-    return this.isNavExpand ? 'toc toc-expand' : 'toc'
-  }
-  get contentClass() {
-    return this.isNavExpand ? 'content content-expand' : 'content'
-  }
-  get navClass() {
-    return this.isNavExpand ? 'nav content-expand' : 'nav'
-  }
-
-  toggle(eventData: EventData<Header>) {
-    eventData.data.state.opened = !eventData.data.state.opened
-  }
-  change(eventData: EventData<Header>) {
-    location.hash = eventData.data.value!.hash
-  }
-  toggleNavigation() {
-    this.isNavExpand = !this.isNavExpand
-  }
-  private setSelectionOfTrees() {
-    const height = window.innerHeight || document.documentElement!.clientHeight
-    const selectedNodes: HTMLElement[] = []
-
-    let state = PositionState.down
-    for (let i = this.toc.length - 1; i >= 0; i--) {
-      state = setSelectionOfTree(this.toc[i], height, [i], selectedNodes, state)
-    }
-
-    if (selectedNodes.length > 0) {
-      const tocElement = this.$refs.toc as HTMLElement
-
-      const firstSelectedNodePosition = selectedNodes[selectedNodes.length - 1].getBoundingClientRect()
-      if (firstSelectedNodePosition.top <= 0) {
-        this.tocScroll.start(tocElement.scrollTop, tocElement.scrollTop + firstSelectedNodePosition.top, 300)
+      let state = PositionState.down
+      for (let i = this.toc.length - 1; i >= 0; i--) {
+        state = setSelectionOfTree(this.toc[i], height, [i], selectedNodes, state)
       }
 
-      const lastSelectedNodePosition = selectedNodes.length > 1 ? selectedNodes[0].getBoundingClientRect() : firstSelectedNodePosition
-      if (lastSelectedNodePosition.bottom >= height) {
-        this.tocScroll.start(tocElement.scrollTop, tocElement.scrollTop + lastSelectedNodePosition.bottom - height, 300)
+      if (selectedNodes.length > 0 && this.tocScroll) {
+        const tocElement = this.$refs.toc as HTMLElement
+
+        const firstSelectedNodePosition = selectedNodes[selectedNodes.length - 1].getBoundingClientRect()
+        if (firstSelectedNodePosition.top <= 0) {
+          this.tocScroll.start(tocElement.scrollTop, tocElement.scrollTop + firstSelectedNodePosition.top, 300)
+        }
+
+        const lastSelectedNodePosition = selectedNodes.length > 1 ? selectedNodes[0].getBoundingClientRect() : firstSelectedNodePosition
+        if (lastSelectedNodePosition.bottom >= height) {
+          this.tocScroll.start(tocElement.scrollTop, tocElement.scrollTop + lastSelectedNodePosition.bottom - height, 300)
+        }
       }
-    }
-  }
-  private navigateToHash(hash: string) {
-    if (hash) {
-      for (const header of headers) {
-        if (header.hash === hash) {
-          document.title = header.content
-          const headerElement = document.getElementById(header.id)
-          if (headerElement) {
-            const contentElement = this.$refs.content as HTMLElement
-            this.contentScroll.start(contentElement.scrollTop, contentElement.scrollTop + headerElement.getBoundingClientRect().top)
+    },
+    navigateToHash(hash: string) {
+      if (hash) {
+        for (const header of headers) {
+          if (header.hash === hash) {
+            document.title = header.content
+            const headerElement = document.getElementById(header.id)
+            if (headerElement && this.contentScroll) {
+              const contentElement = this.$refs.content as HTMLElement
+              this.contentScroll.start(contentElement.scrollTop, contentElement.scrollTop + headerElement.getBoundingClientRect().top)
+            }
+            return
           }
-          return
         }
       }
     }
   }
-}
+})
 
 function endsWith(target: string, sub: string) {
   return target.lastIndexOf(sub) + sub.length === target.length
@@ -312,7 +320,10 @@ ${request.statusText} for getting src: ${src}
       lastTag = header.tag
     }
 
-    new App({ el: '#container' })
+    const app = createApp(App)
+    app.component('node', Node)
+    app.component('tree', Tree)
+    app.mount('#container')
   }
 }
 request.open('GET', src)

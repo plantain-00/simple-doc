@@ -27,15 +27,15 @@
     "@types/highlight.js": "10.1.0",
     "@types/markdown-it": "12.0.1",
     "@types/webpack": "4.41.26",
-    "@typescript-eslint/eslint-plugin": "4.13.0",
-    "@typescript-eslint/parser": "4.13.0",
-    "autoprefixer": "10.2.1",
+    "@typescript-eslint/eslint-plugin": "4.14.0",
+    "@typescript-eslint/parser": "4.14.0",
+    "autoprefixer": "10.2.3",
     "clean-css-cli": "4.3.0",
     "clean-scripts": "1.20.1",
     "cross-env": "7.0.3",
     "ease-in-out": "2.2.1",
     "eslint": "7.18.0",
-    "eslint-config-prettier": "7.1.0",
+    "eslint-config-prettier": "7.2.0",
     "eslint-plugin-plantain": "1.1.0",
     "file2variable-cli": "2.0.1",
     "github-fork-ribbon-css": "0.2.3",
@@ -50,7 +50,7 @@
     "postcss-cli": "8.3.1",
     "rev-static": "3.6.0",
     "rimraf": "3.0.2",
-    "stylelint": "13.8.0",
+    "stylelint": "13.9.0",
     "stylelint-config-standard": "20.0.0",
     "sw-precache": "5.2.1",
     "tree-vue-component": "6.0.1",
@@ -63,7 +63,7 @@
     "uglify-js": "3",
     "vue": "3.0.5",
     "watch-then-execute": "1.2.0",
-    "webpack": "5.15.0",
-    "webpack-cli": "4.3.1"
+    "webpack": "5.17.0",
+    "webpack-cli": "4.4.0"
   }
 }

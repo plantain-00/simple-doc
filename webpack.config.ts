@@ -17,6 +17,11 @@ export default {
       { test: /\.tsx?$/, loader: 'ts-loader' }
     ]
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      __VUE_PROD_DEVTOOLS__: false,
+    }),
+  ],
   optimization: {
     splitChunks: {
       cacheGroups: {
